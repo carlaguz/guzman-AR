@@ -23,7 +23,7 @@ app.get('/personajes', (req, res, next) => {
 
 // Recibiendo parametros como parte de la ruta
 app.get('/personajes/:franquicia', (req, res, next) => {
-    console.log(req.params.carrera);
+    console.log(req.params.franquicia);
     res.send('Respondiendo a peticion get desde server express =)');
 })
 

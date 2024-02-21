@@ -17,33 +17,45 @@ const connection = mysql.createConnection({
   // GET
   // /videojuego?var=66
 app.get('/videojuego', (req, res) => {
-    //console.log(req.query.IdVideojuego)
+
     console.log(req.query.IdVideojuego)
+
     if (typeof req.query.IdVideojuego == 'undefined') {
       connection.query(
-        'SELECT * FROM videojuego', function (err, results, fields) {
-          console.log(results);
-          //console.log(fields);
-          res.send(results)
+        'SELECT * FROM videojuego', function (err, results) {
+          if (err) {
+            console.error("no work");
+            res.status(500).send("no data fetched");
+            return;
+          }
+          if (results.length == 0) {
+            res.status(404).send("no games fetched");
+          }
+          else {
+            console.log(results);
+            res.send(results);
+          }
         });
     }
-    
+
     else {
     connection.query(
-      'SELECT * FROM videojuego WHERE IdVideojuego = ' + req.query.IdVideojuego,
-      function (err, results, fields){
-        res.send(results)
+      'SELECT * FROM videojuego WHERE IdVideojuego = ' + req.query.IdVideojuego, 
+      function (err, results) {
+        if (err) {
+          console.error("no work");
+          res.status(500).send("no data fetched");
+          return;
+        }
+        if (results.length == 0) {
+          res.status(404).send("no games fetched");
+        }
+        else {
+          console.log(results);
+          res.send(results);
+        }
       }
     )}
-
-    if (results.length > 0)
-    {
-      return res.json("Oki")
-    }
-    else
-    {
-      res.status(500).json("no oki")
-    }
     // Mostrar cuando no hay ningun dato
     // res.status(400).json("")
 })

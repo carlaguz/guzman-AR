@@ -1,11 +1,7 @@
-// Put o Patch
-// Recorrer objeto con for in, keys, values, entries
 let libros = {
-    titulo: "",
-    genero: "",
-
+    "id": 1,
+    "titulo": "Un Estudio en Escarlata",
+    "lanzamiento": "Noviembre 1887",
+    "autor": "Sir Arthur Conan Doyle",
+    "genero": "Novela policiaca"
 }
-
-console.log(maestro)
-
-// Update

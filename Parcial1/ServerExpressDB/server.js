@@ -60,28 +60,30 @@ app.post('/characters', (req, res) => {
 // DELETE
 app.delete('/characters/:Id', (req, res) => {
   try {
-    const { Id } = req.params.Id;
+    const { Id } = req.params;
     connection.query(
       'DELETE FROM `Characters` WHERE `Id` = ?', [Id],
       function (err, results) {
-        (results.affectedRows == 0 ? res.status(404).send("no chars fetched") : console.log(results), res.status(202).send("char deleted successfully"))
+        console.log(results); 
+        res.status(202).send("char deleted successfully");
       })
     } catch(err) {
       res.status(500).send(err.message);
     }
 })
 
-// PATCH
-app.patch('/characters/:Id', (req, res) => {
+// PUT
+app.put('/characters/:Id', (req, res) => {
   try {
-    const { Id } = req.params.Id;
+    const { Id } = req.params;
     const { Nombre, Especie, Genero, Alineamiento, Habilidad } = req.body;
     console.log(req.body);
     connection.query(
       'UPDATE `Characters` SET `Nombre` = ?, `Especie` = ?, `Genero` = ?, `Alineamiento` = ?, `Habilidad` = ? WHERE `Id` = ? ', 
       [Nombre, Especie, Genero, Alineamiento, Habilidad, Id],
       function (err, results) {
-        (results.affectedRows == 0 ? res.status(404).send("no chars fetched") : console.log(results), res.status(202).send("char updated successfully"))
+        console.log(results);
+        res.status(202).send("char updated successfully");
       })
     } catch(err) {
       res.status(500).send(err.message)

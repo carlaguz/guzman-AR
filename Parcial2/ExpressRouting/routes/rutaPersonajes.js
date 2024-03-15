@@ -1,5 +1,5 @@
 const express = require('express');
-const rutapersonajes = express(Router);
+const rutapersonajes = express.Router;
 
 rutapersonajes.get('/', (req, res, next) => {
     res.send('GET request')

@@ -15,7 +15,8 @@ const connection = mysql.createConnection({
   });
 
 // GET
-app.get('/characters', (req, res) => {
+app.get('/characters', check(query).notEmpty(), (req, res) => {
+  const result = validationResult(req);
 
     console.log(req.query.Id)
 

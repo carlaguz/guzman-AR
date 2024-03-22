@@ -1,0 +1,24 @@
+{
+  "name": "mostrarkaomoji",
+  "version": "1.2.1",
+  "description": "funcion para mostrar un kaomoji random",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "doc": "jsdoc -c jsdoc.json",
+    "generate-docs": "node ./node_modules/.bin/jsdoc -c jsdoc.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carlaguz/mostrarmensaje.git"
+  },
+  "author": "carlaguz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carlaguz/mostrarmensaje/issues"
+  },
+  "homepage": "https://github.com/carlaguz/mostrarmensaje#readme",
+  "dependencies": {
+    "docdash-blue": "^1.1.12"
+  }
+}

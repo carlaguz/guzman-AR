@@ -15,28 +15,27 @@ const connection = mysql.createConnection({
   });
 
 // GET
-app.get('/characters', check(query).notEmpty(), (req, res) => {
-  const result = validationResult(req);
+app.get('/characters', (req, res) => {
 
-    console.log(req.query.Id)
+  console.log(req.query.Id)
 
-    if (typeof req.query.Id == 'undefined') {
-      connection.query(
-        'SELECT * FROM Characters', function (err, results) {
-
-          (results.length == 0) ? res.status(404).send("no chars fetched") : console.log(results); res.send(results)
-
-        });
-    }
-    else {
+  if (typeof req.query.Id == 'undefined') {
     connection.query(
-      'SELECT * FROM Characters WHERE Id = ' + req.query.Id,
-      function (err, results) {
-        
-        (results.length == 0) ? res.status(404).send("no chars fetched") : console.log(results); res.send(results);
-  
+      'SELECT * FROM Characters', function (err, results) {
+
+        (results.length == 0) ? res.status(404).send("no chars fetched") : console.log(results); res.send(results)
+
       });
-    }
+  }
+  else {
+  connection.query(
+    'SELECT * FROM Characters WHERE Id = ' + req.query.Id,
+    function (err, results) {
+      
+      (results.length == 0) ? res.status(404).send("no chars fetched") : console.log(results); res.send(results);
+
+    });
+  }
 })
 
 // POST
@@ -54,7 +53,7 @@ app.post('/characters', [check(["Nombre", "Especie", "Genero", "Alineamiento", "
       })
     }
     else {
-      res.send("validation error. data stored isnt the correct type.");
+      res.status(500).send("validation error. data stored isnt the correct type.");
     }
 })
 

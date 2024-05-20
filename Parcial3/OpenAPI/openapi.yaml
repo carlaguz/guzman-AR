@@ -1,0 +1,16 @@
+openapi: 3.0.0
+info:
+  title: Sonic API
+  version: 1.0.0
+  description: API sobre los personajes de Sonic
+servers:
+  - url: http://localhost:8080
+paths:
+  /usuarios:
+    get:
+      summary: Obtiene una lista de usuarios
+      tags:
+        - Usuarios
+      responses:
+        '200':
+          description: Lista de usuarios

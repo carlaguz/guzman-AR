@@ -1,28 +1,7 @@
 const express = require('express');
-const app = express();
-const port = 8080;
+//const app = express();
+const router = express.Router();
 const mysql = require('mysql2');
-const swaggerUI = require('swagger-ui-express');
-const path = require('path');
-const swaggerJsDoc = require('swagger-jsdoc');
-
-app.use(express.json());
-
-const swaggerOptions = {
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Sonic API',
-      version: '1.0.0',
-    },
-      servers:[{url: "http://localhost:8080"}],
-  },
-  apis:[`${path.join(__dirname,"./src/server.js")}`],
-};
-
-//Middleware
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
-app.use("/api-docs",swaggerUI.serve,swaggerUI.setup(swaggerDocs));
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -32,8 +11,19 @@ const connection = mysql.createConnection({
     password: 't33nt1t4n5'
   });
 
-  // GET
-  app.get('/characters', (req, res) => {
+
+/**
+ * @swagger
+ * /characters/{id}:
+ *   get:
+ *     tags:
+ *       - charas
+ *     summary: obtener all characters
+ *     responses:
+ *       200:
+ *         description: oki
+ */
+  router.get('/characters', (req, res) => {
 
     console.log(req.query.Id)
 
@@ -56,12 +46,12 @@ const connection = mysql.createConnection({
     }
 })
 
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   res.send('Welcome to Sonic API');
 });
 
 // POST
-app.post('/characters', (req, res) => {
+router.post('/characters', (req, res) => {
   try {
     const { Nombre, Especie, Genero, Alineamiento, Habilidad } = req.body;
     console.log(req.body);
@@ -81,7 +71,7 @@ app.post('/characters', (req, res) => {
 })
 
 // DELETE
-app.delete('/characters/:Id', (req, res) => {
+router.delete('/characters/:Id', (req, res) => {
   try {
     const { Id } = req.params;
     connection.query(
@@ -96,7 +86,7 @@ app.delete('/characters/:Id', (req, res) => {
 })
 
 // PUT
-app.put('/characters/:Id', (req, res) => {
+router.put('/characters/:Id', (req, res) => {
   try {
     const { Id } = req.params;
     const { Nombre, Especie, Genero, Alineamiento, Habilidad } = req.body;
@@ -113,6 +103,4 @@ app.put('/characters/:Id', (req, res) => {
     }
 })
 
-app.listen(port, () => {
-    console.log(`App listening on port ${port} =)`)
-})
+module.exports = router;

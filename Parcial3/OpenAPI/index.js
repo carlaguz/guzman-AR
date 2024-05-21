@@ -26,7 +26,7 @@ const swaggerOptions = {
 
 app.use(express.json());
 
-app.use('/characters', sonicRouter);
+app.use('/', sonicRouter);
 
 app.listen(8080, () => {
     console.log(`App listening on port ${8080} =)`)
@@ -36,7 +36,3 @@ app.listen(8080, () => {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 app.use("/api-docs",swaggerUI.serve,swaggerUI.setup(swaggerDocs, options));
-
-app.get('/api-docs-json', (req, res) => {
-    res.json(swaggerDocs);
-})

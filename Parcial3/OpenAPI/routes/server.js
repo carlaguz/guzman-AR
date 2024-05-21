@@ -11,17 +11,26 @@ const connection = mysql.createConnection({
     password: 't33nt1t4n5'
   });
 
-
 /**
  * @swagger
- * /characters/{id}:
+ * /characters:
  *   get:
  *     tags:
  *       - charas
- *     summary: obtener all characters
+ *     summary: obtener todos los personajes
+ *     parameters:
+ *       - name: id
+ *         in: charas
+ *         description: id of the character you wish to see
+ *         schema:
+ *           type: integer
  *     responses:
  *       200:
  *         description: oki
+ *       404:
+ *         description: not found
+ *       500:
+ *         description: connection error
  */
   router.get('/characters', (req, res) => {
 

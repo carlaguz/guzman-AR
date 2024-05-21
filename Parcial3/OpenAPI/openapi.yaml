@@ -5,12 +5,48 @@ info:
   description: API sobre los personajes de Sonic
 servers:
   - url: http://localhost:8080
+components:
+  schemas:
+    Characters:
+      required:
+        - nombre
+        - genero
+        - habilidad
+        - alineacion
+      type: object
+      properties:
+        nombre:
+          type: string
+          example: Shadow
+        genero:
+          type: char
+          example: M
+        habilidad:
+          type: string
+          example: Speed
+        alineacion:
+          type: string
+          example: Dark
 paths:
-  /usuarios:
+  /characters/{id}:
     get:
-      summary: Obtiene una lista de usuarios
+      summary: obtiene una lista de personajes
       tags:
-        - Usuarios
+        - Characters
       responses:
         '200':
-          description: Lista de usuarios
+          description: lista de personajes
+    post:
+      summary: agrega un personaje
+      description: agregar un personaje nuevo
+      requestBody:
+        description: agregar un personaje de sanic nuevo
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Characters"
+      tags:
+        - Characters
+      responses:
+        '200':
+          description: lista de personajes

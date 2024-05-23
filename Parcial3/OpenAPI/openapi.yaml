@@ -7,7 +7,7 @@ servers:
   - url: http://localhost:8080
 components:
   schemas:
-    Characters:
+    Character:
       required:
         - nombre
         - genero
@@ -36,6 +36,10 @@ paths:
       responses:
         '200':
           description: lista de personajes
+        '404':
+          description: not found
+        '500':
+          description: connection error
     post:
       summary: agrega un personaje
       description: agregar un personaje nuevo
@@ -45,6 +49,22 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/Characters"
+      tags:
+        - Characters
+      responses:
+        '200':
+          description: lista de personajes
+    get:
+      summary: obtiene una lista de personajes
+      tags:
+        - Characters
+      responses:
+        '200':
+          description: lista de personajes
+    delete:
+      summary: elimina un personaje
+      description: eliminar un personaje
+      
       tags:
         - Characters
       responses:

@@ -13,24 +13,43 @@ const connection = mysql.createConnection({
 
 /**
  * @swagger
- * /characters:
- *   get:
- *     tags:
- *       - characters
- *     summary: obtener informacion del personaje, por id
- *     parameters:
- *       - in: query
- *         name: id
- *         description: id del personaje que deseas ver
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: oki
- *       404:
- *         description: not found
- *       500:
- *         description: connection error
+ * components:
+ *  schemas:
+ *    Character:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: integer
+ *        nombre:
+ *          type: string
+ *        especie:
+ *          type: string
+ *        genero:
+ *          type: char
+ *        habilidad:
+ *          type: string
+ *        alineacion:
+ *          type: string
+ * 
+ * paths:
+ *   /characters:
+ *     get:
+ *       tags:
+ *         - characters
+ *       summary: obtener informacion del personaje especifico
+ *       parameters:
+ *         - in: query
+ *           name: id
+ *           description: id del personaje
+ *           schema:
+ *             type: integer
+ *       responses:
+ *         200:
+ *           description: oki
+ *         404:
+ *           description: not found
+ *         500:
+ *           description: connection error
  */
   router.get('/characters', (req, res) => {
 
@@ -67,19 +86,27 @@ router.get('/', (req, res) => {
  *     tags:
  *       - characters
  *     summary: agregar un personaje nuevo
- *     parameters:
- *       - in: body
- *         name: id
- *         description: id del personaje que deseas ver
- *         schema:
- *           type: integer
+ *     requestBody: 
+ *       required: true
+ *       content: 
+ *         application/json:
+ *           schema:
+ *             type: array
+ *             items:
+ *               $ref: '#/components/schemas/Character'
+ *           example:
+ *             nombre: Vector
+ *             especie: Cocodrilo
+ *             genero: M
+ *             habilidad: Power
+ *             alineacion: Hero
  *     responses:
  *       200:
- *         description: oki
+ *         description: personaje creado correctamente
  *       404:
- *         description: not found
+ *         description: personaje no encontrado
  *       500:
- *         description: connection error
+ *         description: error de conexion !
  */
 router.post('/characters', (req, res) => {
   try {
@@ -106,21 +133,21 @@ router.post('/characters', (req, res) => {
  *   delete:
  *     tags:
  *       - characters
- *     summary: eliminar un personaje, por id
+ *     summary: eliminar un personaje
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: id del personaje que deseas ver
+ *         description: id del personaje
  *         schema:
  *           type: integer
  *     responses:
  *       200:
- *         description: oki
+ *         description: personaje eliminado correctamente
  *       404:
- *         description: not found
+ *         description: personaje no encontrado, no se pudo eliminar
  *       500:
- *         description: connection error
+ *         description: error de conexion !
  */
 router.delete('/characters/:Id', (req, res) => {
   try {
@@ -136,7 +163,42 @@ router.delete('/characters/:Id', (req, res) => {
     }
 })
 
-// PUT
+/**
+ * @swagger
+ * /characters/{id}:
+ *   put:
+ *     tags:
+ *       - characters
+ *     summary: modificar todos los datos de un personaje
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: id del personaje
+ *         schema:
+ *           type: integer
+ *     requestBody: 
+ *       required: true
+ *       content: 
+ *         application/json:
+ *           schema:
+ *             type: array
+ *             items:
+ *               $ref: '#/components/schemas/Character'
+ *           example:
+ *             nombre: Vector
+ *             especie: Cocodrilo
+ *             genero: M
+ *             habilidad: Power
+ *             alineacion: Hero
+ *     responses:
+ *       200:
+ *         description: personaje modificado correctamente
+ *       404:
+ *         description: personaje no encontrado, no se pudo modificar
+ *       500:
+ *         description: error de conexion !
+ */
 router.put('/characters/:Id', (req, res) => {
   try {
     const { Id } = req.params;

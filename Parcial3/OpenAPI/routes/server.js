@@ -26,9 +26,9 @@ const connection = mysql.createConnection({
  *          type: string
  *        genero:
  *          type: char
- *        habilidad:
+ *        alineamiento:
  *          type: string
- *        alineacion:
+ *        habilidad:
  *          type: string
  * 
  * paths:
@@ -95,32 +95,32 @@ router.get('/', (req, res) => {
  *             items:
  *               $ref: '#/components/schemas/Character'
  *           example:
- *             nombre: Vector
- *             especie: Cocodrilo
- *             genero: M
- *             habilidad: Power
- *             alineacion: Hero
+ *             Nombre: Vector
+ *             Especie: Cocodrilo
+ *             Genero: M
+ *             Alineamiento: Hero
+ *             Habilidad: Power
  *     responses:
  *       200:
- *         description: personaje creado correctamente
+ *         description: character created successfully
  *       404:
- *         description: personaje no encontrado
+ *         description: missing fields!
  *       500:
- *         description: error de conexion !
+ *         description: connection error
  */
 router.post('/characters', (req, res) => {
   try {
     const { Nombre, Especie, Genero, Alineamiento, Habilidad } = req.body;
     console.log(req.body);
     if(!Nombre || !Especie || !Genero || !Alineamiento || !Habilidad){
-      res.status(400).send("missing fields!");
+      res.status(404).send("missing fields!");
     }
     connection.query(
       'INSERT INTO `Characters` (`Nombre`, `Especie`, `Genero`, `Alineamiento`, `Habilidad`) VALUES (?, ?, ?, ?, ?)',
       [Nombre, Especie, Genero, Alineamiento, Habilidad],
       function (err, results) { 
         console.log(results);
-        res.status(202).send("character created successfully");
+        res.status(200).send("character created successfully");
       })
   } catch(err) {
     res.status(500).send(err.message)
@@ -142,8 +142,8 @@ router.post('/characters', (req, res) => {
  *         schema:
  *           type: integer
  *     responses:
- *       200:
- *         description: personaje eliminado correctamente
+ *       202:
+ *         description: char deleted successfully
  *       404:
  *         description: personaje no encontrado, no se pudo eliminar
  *       500:
@@ -186,16 +186,16 @@ router.delete('/characters/:Id', (req, res) => {
  *             items:
  *               $ref: '#/components/schemas/Character'
  *           example:
- *             nombre: Vector
- *             especie: Cocodrilo
- *             genero: M
- *             habilidad: Power
- *             alineacion: Hero
+ *             Nombre: Vector
+ *             Especie: Cocodrilo
+ *             Genero: M
+ *             Alineamiento: Hero
+ *             Habilidad: Power
  *     responses:
- *       200:
- *         description: personaje modificado correctamente
+ *       202:
+ *         description: char updated succesfully
  *       404:
- *         description: personaje no encontrado, no se pudo modificar
+ *         description: bad request
  *       500:
  *         description: error de conexion !
  */
@@ -209,7 +209,7 @@ router.put('/characters/:Id', (req, res) => {
       [Nombre, Especie, Genero, Alineamiento, Habilidad, Id],
       function (err, results) {
         console.log(results);
-        res.status(202).send("char updated successfully");
+        res.status(200).send("char updated successfully");
       })
     } catch(err) {
       res.status(500).send(err.message)

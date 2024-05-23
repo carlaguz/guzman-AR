@@ -6,6 +6,8 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const { SwaggerTheme, SwaggerThemeNameEnum } = require('swagger-themes');
 const theme = new SwaggerTheme();
 const sonicRouter = require('./routes/server.js')
+require('dotenv').config({path: './config.env'});
+console.log(process.env) // remove this after you've confirmed it is working
 
 const swaggerOptions = {
     definition: {

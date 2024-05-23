@@ -16,12 +16,12 @@ const connection = mysql.createConnection({
  * /characters:
  *   get:
  *     tags:
- *       - charas
- *     summary: obtener todos los personajes
+ *       - characters
+ *     summary: obtener informacion del personaje, por id
  *     parameters:
- *       - name: id
- *         in: charas
- *         description: id of the character you wish to see
+ *       - in: query
+ *         name: id
+ *         description: id del personaje que deseas ver
  *         schema:
  *           type: integer
  *     responses:
@@ -34,11 +34,12 @@ const connection = mysql.createConnection({
  */
   router.get('/characters', (req, res) => {
 
-    console.log(req.query.Id)
+    console.log(req.query.id)
 
-    if (typeof req.query.Id == 'undefined') {
+    if (typeof req.query.id == 'undefined') {
       connection.query(
-        'SELECT * FROM Characters', function (err, results) {
+        'SELECT * FROM Characters', 
+        function (err, results) {
 
           (results.length == 0) ? res.status(404).send("no chars fetched") : console.log(results); res.send(results)
 
@@ -46,7 +47,7 @@ const connection = mysql.createConnection({
     }
     else {
     connection.query(
-      'SELECT * FROM Characters WHERE Id = ' + req.query.Id,
+      'SELECT * FROM Characters WHERE Id = ' + req.query.id,
       function (err, results) {
         
         (results.length == 0) ? res.status(404).send("no chars fetched") : console.log(results); res.send(results);
@@ -56,10 +57,30 @@ const connection = mysql.createConnection({
 })
 
 router.get('/', (req, res) => {
-  res.send('Welcome to Sonic API');
+  res.send('Welcome to the Sonic API =)!');
 });
 
-// POST
+/**
+ * @swagger
+ * /characters:
+ *   post:
+ *     tags:
+ *       - characters
+ *     summary: agregar un personaje nuevo
+ *     parameters:
+ *       - in: body
+ *         name: id
+ *         description: id del personaje que deseas ver
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: oki
+ *       404:
+ *         description: not found
+ *       500:
+ *         description: connection error
+ */
 router.post('/characters', (req, res) => {
   try {
     const { Nombre, Especie, Genero, Alineamiento, Habilidad } = req.body;
@@ -79,7 +100,28 @@ router.post('/characters', (req, res) => {
   }
 })
 
-// DELETE
+/**
+ * @swagger
+ * /characters/{id}:
+ *   delete:
+ *     tags:
+ *       - characters
+ *     summary: eliminar un personaje, por id
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: id del personaje que deseas ver
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: oki
+ *       404:
+ *         description: not found
+ *       500:
+ *         description: connection error
+ */
 router.delete('/characters/:Id', (req, res) => {
   try {
     const { Id } = req.params;
